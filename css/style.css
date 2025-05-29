@@ -102,3 +102,21 @@ button > p {
     justify-self: flex-start;
     grid-area: 1 / 2 / 2 / 3;
 }
+
+#edit-label-dialog {
+    border: none;
+    border-radius: 20px;
+    padding: 2rem;
+}
+
+#edit-label-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.form-container {
+    display: grid;
+}
+
+fieldset {
+    border: none;
+}

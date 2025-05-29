@@ -33,71 +33,79 @@
                     <p>Print</p>
                 </button>
                 <dialog id="edit-label-dialog">
-                    <form method="dialog">
-                        <div class="whole-or-ground-radios">
-                            <fieldset>
-                                <input type="radio" id="whole" name="wholeOrGround" value="w" checked>
-                                <input type="radio" id="ground" name="wholeOrGround" value="g">
-                            </fieldset>
-                        </div>
-                        <div class="five-or-one-radios">
-                            <fieldset>
-                                    <input type="radio" id="five" name="fiveOrOne" value="f" checked>
-                                    <input type="radio" id="one" name="fiveOrOne" value="o">
-                            </fieldset>
-                        </div>
-                        <div class="groundSelect">
-                            <label for="groundSelectRange">Ground #:</label>
-                            <input id ="groundSelectRange" type="range" min="1" max="12" step="1" oninput="updateRangeNumber(this.value);">
-                            <div class="groundNumPreview"></div>
-                        </div>
-                        <div class="date-change-container">
-                            <div class="check-date">
-                                <input type="checkbox" id="changeDate" name="changeDate">
-                                <label for="changeDate">Change date?</label>
+                    <div class="form-container">
+                        <form method="dialog">
+                            <div class="whole-or-ground-radios">
+                                <fieldset>
+                                    <input type="radio" id="whole" name="wholeOrGround" value="w" checked>
+                                    <input type="radio" id="ground" name="wholeOrGround" value="g">
+                                </fieldset>
                             </div>
-                            <div class="new-date">
-                                <label for="newDate">Enter new date:</label>
-                                <input type="date" id="newDate" name="newDate" disabled>
+                            <div class="five-or-one-radios">
+                                <fieldset>
+                                        <input type="radio" id="five" name="fiveOrOne" value="f" checked>
+                                        <label for="five">5lbs</label>
+                                        <input type="radio" id="one" name="fiveOrOne" value="o">
+                                        <label for="one">1lb</label>
+                                </fieldset>
                             </div>
+                            <div class="ground-select">
+                                <label for="groundSelectRange">Ground #:</label>
+                                <input id ="groundSelectRange" type="range" min="1" max="12" step="1" oninput="updateRangeNumber(this.value);">
+                                <div class="groundNumPreview"></div>
+                            </div>
+                            <div class="date-change-container">
+                                <div class="check-date">
+                                    <input type="checkbox" id="changeDate" name="changeDate">
+                                    <label for="changeDate">Change date?</label>
+                                </div>
+                                <div class="new-date">
+                                    <label for="newDate">Enter new date:</label>
+                                    <input type="date" id="newDate" name="newDate" disabled>
+                                </div>
+                            </div>
+                            <div class="coffee-type-dropdown">
+                                <label for="coffeeSelect">Choose a coffee:</label>
+                                <select id="coffeeSelect" name="coffeeCode" onfocus='this.size=10;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+                                    <option value="">-- Please select a coffee --</option>
+                                    <option value="ARABIAN MOKA-JAVA">MJV</option>
+                                    <option value="BA/HOUSE">BAHOU</option>
+                                    <option value="CLYDE'S BLEND">CLY</option>
+                                    <option value="COLOMBIA">COL</option>
+                                    <option value="DECAF CLYDE'S">DCLY</option>
+                                    <option value="DECAF ESPRESSO">DES</option>
+                                    <option value="DECAF ETHIOPIA">DETH</option>
+                                    <option value="DECAF FRENCH">DFR</option>
+                                    <option value="DECAF HAMILTON">DHAM</option>
+                                    <option value="DECAF HOUSE">DHO</option>
+                                    <option value="DECAF HOLIDAY">DHOL</option>
+                                    <option value="DECAF SUMATRA">DSM</option>
+                                    <option value="DECAF VINE STREET">DVS</option>
+                                    <option value="ESPRESSO">ESP</option>
+                                    <option value="ETHIOPIA">ETH</option>
+                                    <option value="FRENCH ROAST">FRE</option>
+                                    <option value="HOUSE AROMATICA BLEND">HAB</option>
+                                    <option value="HAMILTON BLEND">HAM</option>
+                                    <option value="HOLIDAY BLEND">HOL</option>
+                                    <option value="HOUSE BLEND">HOU</option>
+                                    <option value="JAVA">JAV</option>
+                                    <option value="KENYA">KEN</option>
+                                    <option value="PAPUA NEW GUINEA">PNG</option>
+                                    <option value="Q'MAINE COLD BREW">QCOLD</option>
+                                    <option value="RED LINE BLEND">RED</option>
+                                    <option value="SS COSTA RICA">SSCRA</option>
+                                    <option value="SS GUATEMALA">SSGUA</option>
+                                    <option value="SS SUMATRA">SSSUM</option>
+                                    <option value="VINE STREET BLEND">VINE</option>
+                                    <option value="VIENNESE">VNS</option>
+                                </select>
+                            </div>
+                        </form>
+                        <div class="form-btn-container">
+                            <button class="discard-btn"></button>
+                            <button class="save-btn"></button>
                         </div>
-                        <div class="coffee-type-dropdown">
-                            <label for="coffeeSelect">Choose a coffee:</label>
-                            <select id="coffeeSelect" name="coffeeCode" onfocus='this.size=10;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
-                                <option value="">-- Please select a coffee --</option>
-                                <option value="ARABIAN MOKA-JAVA">MJV</option>
-                                <option value="BA/HOUSE">BAHOU</option>
-                                <option value="CLYDE'S BLEND">CLY</option>
-                                <option value="COLOMBIA">COL</option>
-                                <option value="DECAF CLYDE'S">DCLY</option>
-                                <option value="DECAF ESPRESSO">DES</option>
-                                <option value="DECAF ETHIOPIA">DETH</option>
-                                <option value="DECAF FRENCH">DFR</option>
-                                <option value="DECAF HAMILTON">DHAM</option>
-                                <option value="DECAF HOUSE">DHO</option>
-                                <option value="DECAF HOLIDAY">DHOL</option>
-                                <option value="DECAF SUMATRA">DSM</option>
-                                <option value="DECAF VINE STREET">DVS</option>
-                                <option value="ESPRESSO">ESP</option>
-                                <option value="ETHIOPIA">ETH</option>
-                                <option value="FRENCH ROAST">FRE</option>
-                                <option value="HOUSE AROMATICA BLEND">HAB</option>
-                                <option value="HAMILTON BLEND">HAM</option>
-                                <option value="HOLIDAY BLEND">HOL</option>
-                                <option value="HOUSE BLEND">HOU</option>
-                                <option value="JAVA">JAV</option>
-                                <option value="KENYA">KEN</option>
-                                <option value="PAPUA NEW GUINEA">PNG</option>
-                                <option value="Q'MAINE COLD BREW">QCOLD</option>
-                                <option value="RED LINE BLEND">RED</option>
-                                <option value="SS COSTA RICA">SSCRA</option>
-                                <option value="SS GUATEMALA">SSGUA</option>
-                                <option value="SS SUMATRA">SSSUM</option>
-                                <option value="VINE STREET BLEND">VINE</option>
-                                <option value="VIENNESE">VNS</option>
-                            </select>
-                        </div>
-                    </form>
+                    </div>
                 </dialog>
             </div>
         </div>
