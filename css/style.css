@@ -107,6 +107,7 @@ button > p {
     border: none;
     border-radius: 20px;
     padding: 2rem;
+    
 }
 
 #edit-label-dialog::backdrop {
@@ -115,8 +116,43 @@ button > p {
 
 .form-container {
     display: grid;
+    grid-area: auto 1fr;
 }
 
 fieldset {
     border: none;
+}
+
+.label-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* grid-template-rows: 1fr auto repeat(3, 1fr); */
+    grid-template-rows: repeat(5, auto);
+    align-items: center;
+}
+
+#coffeeSelect {
+    position: relative;
+    z-index: 9999;
+  }
+
+.whole-or-ground-radios {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.ground-select {
+    display: none;
+    grid-area: 2 / 1 / 3 / 2;
+}
+
+.five-or-one-radios {
+    grid-area: 3 / 1 / 4 / 2;
+}
+
+.date-change-container {
+    grid-area: 4 / 1 / 5 / 2;
+}
+
+.coffee-type-dropdown {
+    grid-area: 5 / 1 / 6 / 2;
 }

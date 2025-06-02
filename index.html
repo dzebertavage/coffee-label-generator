@@ -34,12 +34,19 @@
                 </button>
                 <dialog id="edit-label-dialog">
                     <div class="form-container">
-                        <form method="dialog">
+                        <form class="label-form" method="dialog">
                             <div class="whole-or-ground-radios">
                                 <fieldset>
-                                    <input type="radio" id="whole" name="wholeOrGround" value="w" checked>
+                                    <input type="radio" id="whole" name="wholeOrGround" value="w" checked autofocus>
+                                    <label for="whole">Whole Bean</label>
                                     <input type="radio" id="ground" name="wholeOrGround" value="g">
+                                    <label for="ground">Ground</label>
                                 </fieldset>
+                            </div>
+                            <div class="ground-select">
+                                <label for="groundSelectRange">Ground #:</label>
+                                <input id ="groundSelectRange" type="range" min="1" max="12" step="1" oninput="updateRangeNumber(this.value);">
+                                <div class="groundNumPreview"></div>
                             </div>
                             <div class="five-or-one-radios">
                                 <fieldset>
@@ -48,11 +55,6 @@
                                         <input type="radio" id="one" name="fiveOrOne" value="o">
                                         <label for="one">1lb</label>
                                 </fieldset>
-                            </div>
-                            <div class="ground-select">
-                                <label for="groundSelectRange">Ground #:</label>
-                                <input id ="groundSelectRange" type="range" min="1" max="12" step="1" oninput="updateRangeNumber(this.value);">
-                                <div class="groundNumPreview"></div>
                             </div>
                             <div class="date-change-container">
                                 <div class="check-date">
@@ -102,8 +104,8 @@
                             </div>
                         </form>
                         <div class="form-btn-container">
-                            <button class="discard-btn"></button>
-                            <button class="save-btn"></button>
+                            <button class="discard-btn">Discard Changes</button>
+                            <button class="keep-btn">Keep Changes</button>
                         </div>
                     </div>
                 </dialog>
