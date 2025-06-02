@@ -36,12 +36,14 @@
                     <div class="form-container">
                         <form class="label-form" method="dialog">
                             <div class="whole-or-ground-radios">
-                                <fieldset>
-                                    <input type="radio" id="whole" name="wholeOrGround" value="w" checked autofocus>
-                                    <label for="whole">Whole Bean</label>
-                                    <input type="radio" id="ground" name="wholeOrGround" value="g">
-                                    <label for="ground">Ground</label>
-                                </fieldset>
+                                    <div class="whole-radio-container">
+                                        <input type="radio" id="whole" name="wholeOrGround" value="w" checked autofocus>
+                                        <label for="whole">Whole Bean</label>
+                                    </div>
+                                    <div class="ground-radio-container">
+                                        <input type="radio" id="ground" name="wholeOrGround" value="g">
+                                        <label for="ground">Ground</label>
+                                    </div>
                             </div>
                             <div class="ground-select">
                                 <label for="groundSelectRange">Ground #:</label>
@@ -49,12 +51,14 @@
                                 <div class="groundNumPreview"></div>
                             </div>
                             <div class="five-or-one-radios">
-                                <fieldset>
-                                        <input type="radio" id="five" name="fiveOrOne" value="f" checked>
-                                        <label for="five">5lbs</label>
-                                        <input type="radio" id="one" name="fiveOrOne" value="o">
-                                        <label for="one">1lb</label>
-                                </fieldset>
+                                        <div class="five-radio-container">
+                                            <input type="radio" id="five" name="fiveOrOne" value="f" checked>
+                                            <label for="five">5lbs</label>
+                                        </div>
+                                        <div class="one-radio-container">
+                                            <input type="radio" id="one" name="fiveOrOne" value="o">
+                                            <label for="one">1lb</label>
+                                        </div>
                             </div>
                             <div class="date-change-container">
                                 <div class="check-date">
@@ -67,9 +71,10 @@
                                 </div>
                             </div>
                             <div class="coffee-type-dropdown">
-                                <label for="coffeeSelect">Choose a coffee:</label>
-                                <select id="coffeeSelect" name="coffeeCode" onfocus='this.size=10;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
-                                    <option value="">-- Please select a coffee --</option>
+                                <label for="coffee">Coffee code:</label>
+                                <input list="coffeeOptions" id="coffee" name="coffee" placeholder="Type code...">
+
+                                <datalist id="coffeeOptions">
                                     <option value="ARABIAN MOKA-JAVA">MJV</option>
                                     <option value="BA/HOUSE">BAHOU</option>
                                     <option value="CLYDE'S BLEND">CLY</option>
@@ -81,8 +86,9 @@
                                     <option value="DECAF HAMILTON">DHAM</option>
                                     <option value="DECAF HOUSE">DHO</option>
                                     <option value="DECAF HOLIDAY">DHOL</option>
-                                    <option value="DECAF SUMATRA">DSM</option>
+                                    <option value="DECAF SUMATRA">DSUM</option>
                                     <option value="DECAF VINE STREET">DVS</option>
+                                    <option value="EL SALVADOR AROMATICA">ELSAL</option>
                                     <option value="ESPRESSO">ESP</option>
                                     <option value="ETHIOPIA">ETH</option>
                                     <option value="FRENCH ROAST">FRE</option>
@@ -100,7 +106,7 @@
                                     <option value="SS SUMATRA">SSSUM</option>
                                     <option value="VINE STREET BLEND">VINE</option>
                                     <option value="VIENNESE">VNS</option>
-                                </select>
+                                </datalist>
                             </div>
                         </form>
                         <div class="form-btn-container">
