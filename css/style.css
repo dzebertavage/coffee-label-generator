@@ -60,6 +60,16 @@
 
 .sell-by-container {
     grid-area: 5 / 2 / 6 / 3;
+    display: grid;
+    grid-template-areas: 1fr / 1fr 3fr;
+}
+
+.sell-by-text {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.sell-by-date {
+    grid-area: 1 / 2 / 2 / 3;
 }
 
 .phone-email {
