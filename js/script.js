@@ -1,5 +1,11 @@
 const date = moment();
-let sellByDate = date.add(3, `months`).format("MM/DD/YY");
+let todaysDate = date.add(3, `months`).format("MM/DD/YY");
+let sellByDate = moment().add(3, `months`).format("MM/DD/YY");
+let coffeeLabel = {
+    newDate: sellByDate,
+    coffee: "HOUSE BLEND",
+    weight: "Net Weight 80oz / 5lbs / 2.27kg"
+};
 
 const editBtn = document.querySelector(".edit-btn");
 const printBtn = document.querySelector(".print-btn");
@@ -15,20 +21,68 @@ const oneRadio = document.querySelector("#one");
 const changeDateCheckbox = document.querySelector("#changeDate");
 const newDateDiv = document.querySelector(".new-date");
 const newDate = document.querySelector("#newDate");
-const sellByDateText = document.querySelector(".sell-by-date");
+let sellByDateText = document.querySelector(".sell-by-date");
+let dateInput;
 const weight = document.querySelector(".weight");
 const groundCoffeeBanner = document.querySelector(".ground-coffee-banner");
 const groundSliderBox = document.querySelector(".ground-select");
 const coffeePicker = document.querySelector("#coffee");
+const coffeeDatalist = document.querySelector("#coffeeOptions");
+const coffeeOptionsArr = [];
+let coffeeInput;
 const discardBtn = document.querySelector(".discard-btn");
 const keepBtn = document.querySelector(".keep-btn");
 const groundCoffeeText = document.querySelector(".ground-coffee-text");
+let coffeeNameDiv = document.querySelector(".coffee-name");
 
 function displayRangeNum(val) {
     groundNumPreview.textContent = val;
 }
 
-sellByDateText.textContent = sellByDate;
+function checkWholeOrGround() {
+    if (groundRadioBtn.checked) {
+        groundCoffeeBanner.style.display = "grid";
+        groundCoffeeText.textContent = "Ground #" + groundSlider.value;
+    } else {
+        groundCoffeeBanner.style.display = "none";
+    }
+}
+
+function updateDate() {
+    let newDateFormatted = newDate.value;
+    coffeeLabel.newDate = newDateFormatted.slice(5, 7) + "/" + newDateFormatted.slice(8, 10) + "/" + newDateFormatted.slice(2, 4);
+    sellByDateText.textContent = coffeeLabel.newDate;
+}
+
+function checkCoffeeMatch(coffeeInput) {
+    if (coffeeOptionsArr.includes(coffeeInput)) {
+        return true;
+    } else {
+        alert("Please enter a valid coffee!");
+        return false;
+    }
+}
+
+function updateCoffee() {
+    if (coffeePicker.value === "") {
+        alert("Please choose a coffee!");
+        return
+    } else {
+
+    }
+}
+
+function getCoffeeOptions() {
+    let options = coffeeDatalist.options;
+    for (let i = 0; i < options.length; i++) {
+        coffeeOptionsArr[i] = options[i].value;
+    }
+}
+
+sellByDateText.textContent = coffeeLabel.newDate;
+coffeeNameDiv.textContent = coffeeLabel.coffee;
+weight.textContent = coffeeLabel.weight;
+getCoffeeOptions();
 
 editBtn.addEventListener('click', () => {
     editDialogBox.showModal();
@@ -39,6 +93,7 @@ editBtn.addEventListener('click', () => {
     fiveRadio.checked = true;
     newDate.value = "";
     newDateDiv.style.display = "none";
+    groundCoffeeBanner.style.display = "none";
 });
 
 groundRadioBtn.addEventListener('change', (event) => {
@@ -75,11 +130,24 @@ discardBtn.addEventListener('click', () => {
 });
 
 keepBtn.addEventListener('click', () => {
-    if (groundRadioBtn.checked) {
-        groundCoffeeBanner.style.display = "grid";
-        groundCoffeeText.textContent = "Ground #" + groundSlider.value;
+    if (changeDateCheckbox.checked) {
+        if (checkCoffeeMatch() === true){
+            if (newDate.value === "") {
+                alert(`Please choose a date or uncheck the \"Change date\" checkbox!`);
+            } else {
+                checkWholeOrGround();
+                updateDate(); 
+                // update coffee function here
+                editDialogBox.close();
+            }
+        }
     } else {
-        groundCoffeeBanner.style.display = "none";
+        if (checkCoffeeMatch() === true){
+            checkWholeOrGround();
+            // update coffee function here
+            editDialogBox.close();
+        }
+        
+
     }
-    
 });
