@@ -30,6 +30,7 @@ const coffeePicker = document.querySelector("#coffee");
 const coffeeDatalist = document.querySelector("#coffeeOptions");
 const coffeeOptionsArr = [];
 let coffeeInput;
+let newCoffee;
 const discardBtn = document.querySelector(".discard-btn");
 const keepBtn = document.querySelector(".keep-btn");
 const groundCoffeeText = document.querySelector(".ground-coffee-text");
@@ -63,13 +64,13 @@ function checkCoffeeMatch(coffeeInput) {
     }
 }
 
-function updateCoffee() {
-    if (coffeePicker.value === "") {
-        alert("Please choose a coffee!");
-        return
-    } else {
+function updateCoffee(newCoffee) {
+    newCoffee = coffeePicker.value;
+    coffeeNameDiv.textContent = newCoffee;
+}
 
-    }
+function updateWeight() {
+    weight.textContent = coffeeLabel.weight;
 }
 
 function getCoffeeOptions() {
@@ -111,6 +112,18 @@ wholeRadioBtn.addEventListener('change', (event) => {
     }
 });
 
+fiveRadio.addEventListener('change', (event) => {
+    if (event.target.checked) {
+        coffeeLabel.weight = "Net Weight 80oz / 5lbs / 2.27kg";
+    }
+});
+
+oneRadio.addEventListener('change', (event) => {
+    if (event.target.checked) {
+        coffeeLabel.weight = "Net Weight 16oz / 1lb / 453g";
+    }
+});
+
 changeDateCheckbox.addEventListener('change', () => {
     if (changeDateCheckbox.checked) {
         newDateDiv.style.display = "grid";
@@ -131,20 +144,22 @@ discardBtn.addEventListener('click', () => {
 
 keepBtn.addEventListener('click', () => {
     if (changeDateCheckbox.checked) {
-        if (checkCoffeeMatch() === true){
+        if (checkCoffeeMatch(coffeePicker.value) === true){
             if (newDate.value === "") {
                 alert(`Please choose a date or uncheck the \"Change date\" checkbox!`);
             } else {
                 checkWholeOrGround();
                 updateDate(); 
-                // update coffee function here
+                updateCoffee(coffeePicker.value);
+                updateWeight();
                 editDialogBox.close();
             }
         }
     } else {
-        if (checkCoffeeMatch() === true){
+        if (checkCoffeeMatch(coffeePicker.value) === true){
             checkWholeOrGround();
-            // update coffee function here
+            updateCoffee(coffeePicker.value);
+            updateWeight();
             editDialogBox.close();
         }
         
