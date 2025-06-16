@@ -115,6 +115,12 @@
     gap: 1rem;
 }
 
+.keep-btn, .discard-btn {
+    border-radius: 20px;
+    border: 1px solid #bdbdbd;
+    
+}
+
 button > img {
     justify-self: flex-end;
     max-height: 30px;
