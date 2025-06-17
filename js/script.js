@@ -44,8 +44,10 @@ function checkWholeOrGround() {
     if (groundRadioBtn.checked) {
         groundCoffeeBanner.style.display = "grid";
         groundCoffeeText.textContent = "Ground #" + groundSlider.value;
+        // Set grid numbers to equal 95%
     } else {
         groundCoffeeBanner.style.display = "none";
+        // set grid numbers to equal 100%
     }
 }
 
@@ -140,6 +142,8 @@ discardBtn.addEventListener('click', () => {
     fiveRadio.checked = true;
     newDate.value = "";
     newDateDiv.style.display = "none";
+    editDialogBox.close();
+    coffeeNameDiv.textContent = "Click \"Edit\" to make a label";
 });
 
 keepBtn.addEventListener('click', () => {

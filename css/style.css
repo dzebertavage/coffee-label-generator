@@ -38,14 +38,14 @@
     grid-area: 1 / 1 / 2 / 2;
     display: grid;
     grid-template-columns: auto minmax(0, 500px) auto;
-    grid-template-rows: auto 50% 5% 20% 10% 5% 10% auto;
+    grid-template-rows: auto 47% auto 22% 12% 7% 7% auto;
     padding: 1.5rem;
 }
 
 .label-preview > img {
     max-height: 100%;
     height: auto;
-    align-self: center;
+    align-self: flex-start;
     justify-self: center;
     grid-area: 2 / 2 / 3 / 3;
 }
@@ -57,7 +57,6 @@
     align-content: center;
     background-color: #000;
     color: #fff;
-    padding: 20px 0;
 }
 
 .ground-coffee-text {
@@ -65,32 +64,55 @@
     justify-self: center;
     font-size: 1.3rem;
     font-weight: bold;
+    margin: 0.5rem 0;
 }
 
 .coffee-name { 
     grid-area: 4 / 2 / 5 / 3;
+    align-self: center;
+    font-size: 4rem;
+    text-align: center;
 }
 
 .sell-by-container {
     grid-area: 5 / 2 / 6 / 3;
     display: grid;
     grid-template: 1fr / 1fr 3fr;
+    justify-content: center;
+    align-items: center;
 }
 
 .sell-by-text {
     grid-area: 1 / 1 / 2 / 2;
+    text-align: center;
+    font-size: 1.9rem;
 }
 
 .sell-by-date {
     grid-area: 1 / 2 / 2 / 3;
+    text-align: center;
+    font-size: 1.9rem;
 }
 
 .phone-email {
     grid-area: 6 / 2 / 7 / 3;
+    justify-self: center;
+    align-self: center;
+    font-size: 1.3rem;
 }
 
 .weight-container {
     grid-area: 7 / 2 / 8 / 3;
+    display: grid;
+    grid-template: 1fr / 1fr;
+}
+
+.weight {
+    grid-area: 1 / 1 / 2 / 2;
+    justify-self: center;
+    align-self: flex-end;
+    font-size: 1.8rem;
+    margin: 0;
 }
 
 .btn-container {
@@ -115,10 +137,19 @@
     gap: 1rem;
 }
 
+.form-btn-container {
+    display: grid;
+    grid-template: auto / auto auto;
+}
+
 .keep-btn, .discard-btn {
     border-radius: 20px;
     border: 1px solid #bdbdbd;
-    
+    padding: 0 2rem;
+}
+
+.keep-btn {
+    background-color: rgb(90, 230, 90);
 }
 
 button > img {
