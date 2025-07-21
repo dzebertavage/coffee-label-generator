@@ -67,6 +67,19 @@
     margin: 0.5rem 0;
 }
 
+.coffee-name-wrapper {
+    grid-area: 4 / 2 / 5 / 3;
+    place-self: center;
+    font-size: 4rem;
+    text-align: center;
+    display: grid;
+    grid-template: 1fr / 1fr;
+    place-items: center;
+    height: 153.11px;
+    overflow: hidden;
+    place-self: center;
+}
+
 .coffee-name { 
     grid-area: 4 / 2 / 5 / 3;
     align-self: center;
