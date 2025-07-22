@@ -3,7 +3,7 @@ let todaysDate = date.add(3, `months`).format("MM/DD/YY");
 let sellByDate = moment().add(3, `months`).format("MM/DD/YY");
 let coffeeLabel = {
     newDate: sellByDate,
-    coffee: "HOUSE BLEND",
+    coffee: `Click "Edit"`,
     weight: "Net Weight 80oz / 5lbs / 2.27kg"
 };
 
@@ -34,7 +34,61 @@ let newCoffee;
 const discardBtn = document.querySelector(".discard-btn");
 const keepBtn = document.querySelector(".keep-btn");
 const groundCoffeeText = document.querySelector(".ground-coffee-text");
+let coffeeNameWrapper = document.querySelector(".coffee-name-wrapper");
 let coffeeNameDiv = document.querySelector(".coffee-name");
+let coffeeNameWrapperWidth, coffeeNameWrapperHeight;
+
+function setCoffeeNameDimensions() {
+    coffeeNameWrapperWidth = coffeeNameWrapper.getBoundingClientRect().width
+    coffeeNameWrapperHeight = coffeeNameWrapper.getBoundingClientRect().height
+}
+
+function changeCoffeeNameToPx() {
+    coffeeNameWrapper.style.width = `${coffeeNameWrapperWidth}px`;
+    coffeeNameWrapper.style.height = `${coffeeNameWrapper.style.height}px`;
+}
+
+function resizeCoffeeName() {
+    requestAnimationFrame(() => {
+        setTimeout(() => {
+            const wrapper = coffeeNameWrapper;
+            const text = coffeeNameDiv;
+
+            let fontSize = 10;
+            const maxFontSize = 125;
+            const step = 1;
+
+            text.style.fontSize = `${fontSize}px`;
+            text.style.whiteSpace = "normal";
+            text.style.wordBreak = "break-word";
+            text.style.overflow = "visible";
+            text.style.display = "block";
+            text.style.webkitLineClamp = "unset";
+            text.style.webkitBoxOrient = "unset";
+
+            while (fontSize <= maxFontSize) {
+                text.style.fontSize = `${fontSize}px`;
+
+                const isTooTall = text.scrollHeight > wrapper.clientHeight;
+                const isTooWide = text.scrollWidth > wrapper.clientWidth;
+
+                if (isTooTall || isTooWide) {
+                    fontSize -= step;
+                    text.style.fontSize = `${fontSize}px`;
+                    break;
+                }
+                fontSize += step;
+            }
+
+            text.style.display = "-webkit-box";
+            text.style.webkitBoxOrient = "vertical";
+            text.style.webkitLineClamp = "3";
+            text.style.overflow = "hidden";
+
+            console.log(`Final font size: ${fontSize}px`);
+        }, 10); // delay to give browser time to print layout
+    });
+}
 
 function displayRangeNum(val) {
     groundNumPreview.textContent = val;
@@ -44,10 +98,8 @@ function checkWholeOrGround() {
     if (groundRadioBtn.checked) {
         groundCoffeeBanner.style.display = "grid";
         groundCoffeeText.textContent = "Ground #" + groundSlider.value;
-        // Set grid numbers to equal 95%
     } else {
         groundCoffeeBanner.style.display = "none";
-        // set grid numbers to equal 100%
     }
 }
 
@@ -85,6 +137,13 @@ function getCoffeeOptions() {
 sellByDateText.textContent = coffeeLabel.newDate;
 coffeeNameDiv.textContent = coffeeLabel.coffee;
 weight.textContent = coffeeLabel.weight;
+setCoffeeNameDimensions();
+changeCoffeeNameToPx();
+
+document.addEventListener('DOMContentLoaded', () => {
+            resizeCoffeeName();
+        });
+
 getCoffeeOptions();
 
 editBtn.addEventListener('click', () => {
@@ -156,6 +215,7 @@ keepBtn.addEventListener('click', () => {
                 updateDate(); 
                 updateCoffee(coffeePicker.value);
                 updateWeight();
+                resizeCoffeeName();
                 editDialogBox.close();
             }
         }
@@ -164,6 +224,7 @@ keepBtn.addEventListener('click', () => {
             checkWholeOrGround();
             updateCoffee(coffeePicker.value);
             updateWeight();
+            resizeCoffeeName();
             editDialogBox.close();
         }
         
