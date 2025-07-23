@@ -60,7 +60,7 @@ function resizeCoffeeName() {
 
             text.style.fontSize = `${fontSize}px`;
             text.style.whiteSpace = "normal";
-            text.style.wordBreak = "break-word";
+            text.style.wordBreak = "normal";
             text.style.overflow = "visible";
             text.style.display = "block";
             text.style.webkitLineClamp = "unset";
@@ -84,8 +84,6 @@ function resizeCoffeeName() {
             text.style.webkitBoxOrient = "vertical";
             text.style.webkitLineClamp = "3";
             text.style.overflow = "hidden";
-
-            console.log(`Final font size: ${fontSize}px`);
         }, 10); // delay to give browser time to print layout
     });
 }
@@ -124,6 +122,12 @@ function updateCoffee(newCoffee) {
 }
 
 function updateWeight() {
+    if (fiveRadio.checked === true) {
+        coffeeLabel.weight = "Net Weight 80oz / 5lbs / 2.27kg";
+    }
+    else if (oneRadio.checked === true) {
+        coffeeLabel.weight = "Net Weight 16oz / 1lb / 453g";
+    }
     weight.textContent = coffeeLabel.weight;
 }
 
@@ -170,18 +174,6 @@ wholeRadioBtn.addEventListener('change', (event) => {
         groundSliderBox.style.display = "none";
         groundSlider.value = 5;
         groundNumPreview.textContent = groundSlider.value;
-    }
-});
-
-fiveRadio.addEventListener('change', (event) => {
-    if (event.target.checked) {
-        coffeeLabel.weight = "Net Weight 80oz / 5lbs / 2.27kg";
-    }
-});
-
-oneRadio.addEventListener('change', (event) => {
-    if (event.target.checked) {
-        coffeeLabel.weight = "Net Weight 16oz / 1lb / 453g";
     }
 });
 
