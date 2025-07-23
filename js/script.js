@@ -11,6 +11,7 @@ const editBtn = document.querySelector(".edit-btn");
 const printBtn = document.querySelector(".print-btn");
 const editDialogBox = document.querySelector("#edit-label-dialog");
 
+const labelPreviewBox = document.querySelector(".label-preview");
 const wholeRadioBtn = document.querySelector("#whole");
 const groundRadioBtn = document.querySelector("#ground");
 const groundSliderDiv = document.querySelector(".ground-select");
@@ -94,9 +95,11 @@ function displayRangeNum(val) {
 
 function checkWholeOrGround() {
     if (groundRadioBtn.checked) {
+        labelPreviewBox.style.gridTemplateRows = "auto 47% auto 27% 9% 6% 6% auto";
         groundCoffeeBanner.style.display = "grid";
         groundCoffeeText.textContent = "Ground #" + groundSlider.value;
     } else {
+        labelPreviewBox.style.gridTemplateRows = "auto 47% 0 27% 9% 6% 6% auto";
         groundCoffeeBanner.style.display = "none";
     }
 }
@@ -194,7 +197,8 @@ discardBtn.addEventListener('click', () => {
     newDate.value = "";
     newDateDiv.style.display = "none";
     editDialogBox.close();
-    coffeeNameDiv.textContent = "Click \"Edit\" to make a label";
+    coffeeNameDiv.textContent = `Click "Edit"`;
+    resizeCoffeeName();
 });
 
 keepBtn.addEventListener('click', () => {

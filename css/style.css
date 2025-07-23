@@ -39,7 +39,7 @@
     grid-area: 1 / 1 / 2 / 2;
     display: grid;
     grid-template-columns: auto minmax(0, 500px) auto;
-    grid-template-rows: auto 47% auto 27% 9% 6% 6% auto;
+    grid-template-rows: auto 47% 0 27% 9% 6% 6% auto;
     padding: 1.5rem;
 }
 
