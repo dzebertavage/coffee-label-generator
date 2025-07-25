@@ -33,7 +33,7 @@ app.post('/print-label', async (req, res) => {
     console.log('Label screenshot saved as label-output.png');
     res.json({ message: 'Label rendered and saved as PNG.' });
   } catch (err) {
-    console.error('Puppeteer error:', err);
+    console.error('Puppeteer error:', err.stack || err.message || err);
     res.status(500).json({ message: 'Label generation failed.' });
   }
 });
