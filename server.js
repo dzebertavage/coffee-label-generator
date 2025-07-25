@@ -11,7 +11,13 @@ app.post('/print-label', async (req, res) => {
 
   try {
     // Launch headless Chrome
-    const browser = await puppeteer.launch();
+    const chromePath = "/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe";
+    console.log('🧭 Using system Chrome from:', chromePath);
+    const browser = await puppeteer.launch({
+      executablePath: chromePath,
+      headless: "new",
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
     const page = await browser.newPage();
 
     // Construct query string URL
