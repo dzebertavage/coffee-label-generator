@@ -2,7 +2,7 @@ const date = moment();
 let todaysDate = date.add(3, `months`).format("MM/DD/YY");
 let sellByDate = moment().add(3, `months`).format("MM/DD/YY");
 let coffeeLabel = {
-    newDate: sellByDate,
+    newDate: `Sell by: ${sellByDate}`,
     coffee: `Click "Edit"`,
     weight: "Net Weight 80oz / 5lbs / 2.27kg"
 };
@@ -107,7 +107,11 @@ function checkWholeOrGround() {
 function updateDate() {
     let newDateFormatted = newDate.value;
     coffeeLabel.newDate = newDateFormatted.slice(5, 7) + "/" + newDateFormatted.slice(8, 10) + "/" + newDateFormatted.slice(2, 4);
-    sellByDateText.textContent = coffeeLabel.newDate;
+    sellByDateText.textContent = `Sell by: ${coffeeLabel.newDate}`;
+}
+
+function resetDate() {
+    sellByDateText.textContent = `Sell by: ${moment().add(3, `months`).format("MM/DD/YY")}`;
 }
 
 function checkCoffeeMatch(coffeeInput) {
@@ -194,10 +198,12 @@ discardBtn.addEventListener('click', () => {
     wholeRadioBtn.checked = true;
     groundSliderBox.style.display = "none";
     fiveRadio.checked = true;
+    weight.textContent = "Net Weight 80oz / 5lbs / 2.27kg";
     newDate.value = "";
     newDateDiv.style.display = "none";
     editDialogBox.close();
     coffeeNameDiv.textContent = `Click "Edit"`;
+    resetDate();
     resizeCoffeeName();
 });
 
@@ -218,6 +224,7 @@ keepBtn.addEventListener('click', () => {
     } else {
         if (checkCoffeeMatch(coffeePicker.value) === true){
             checkWholeOrGround();
+            resetDate();
             updateCoffee(coffeePicker.value);
             updateWeight();
             resizeCoffeeName();
@@ -226,4 +233,31 @@ keepBtn.addEventListener('click', () => {
         
 
     }
+});
+
+printBtn.addEventListener('click', () => {
+    const grind = wholeRadioBtn.checked ? 'whole' : 'ground';
+    const coffeeName = coffeeNameDiv.textContent.trim();
+    const sellBy = sellByDateText.textContent.trim();
+    const size = fiveRadio.checked ? 'five' : 'one';
+
+    fetch('/print-label', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            grind,
+            coffeeName,
+            sellBy,
+            size
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data.message);
+        alert(data.message);
+    })
+    .catch(err => {
+        console.error('Print failed:', err);
+        alert('Something went wrong while sending the print job.');
+    });
 });

@@ -1,27 +1,43 @@
+const puppeteer = require('puppeteer');
 const express = require('express');
 const path = require('path');
 
 const app = express();
-
-// Serve static files
 app.use(express.static(__dirname));
-app.use(express.json()); // Allow JSON in POST requests
+app.use(express.json());
 
-// POST route to handle Print button
-app.post('/print-label', (req, res) => {
+app.post('/print-label', async (req, res) => {
   const { grind, coffeeName, sellBy, size } = req.body;
 
-  console.log('Print request received:', req.body);
+  try {
+    // Launch headless Chrome
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
 
-  // TODO:
-  // 1. Load label template with Puppeteer
-  // 2. Screenshot → PNG → BMP → SBPL
-  // 3. Send to printer
+    // Construct query string URL
+    const url = `http://localhost:3000/label-template-${grind}.html` +
+                `?coffeeName=${encodeURIComponent(coffeeName)}` +
+                `&sellBy=${encodeURIComponent(sellBy)}` +
+                `&size=${encodeURIComponent(size)}`;
 
-  res.json({ message: 'Label print initiated (placeholder).' });
+    await page.goto(url, { waitUntil: 'networkidle0' });
+
+    // Optional: set viewport to match label dimensions
+    await page.setViewport({ width: 812, height: 1218 });
+
+    // Screenshot label
+    await page.screenshot({ path: 'label-output.png' });
+
+    await browser.close();
+
+    console.log('Label screenshot saved as label-output.png');
+    res.json({ message: 'Label rendered and saved as PNG.' });
+  } catch (err) {
+    console.error('Puppeteer error:', err);
+    res.status(500).json({ message: 'Label generation failed.' });
+  }
 });
 
-// Start server
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Label generator server running at http://localhost:${PORT}`);
