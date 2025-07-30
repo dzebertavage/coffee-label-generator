@@ -10,7 +10,6 @@
         }
         
         .label-container {
-            background-color: rgb(196, 196, 196);
             border-radius: 15px;
 
             display: grid;
@@ -42,6 +41,7 @@
         .coffee-name {
             grid-area: 1 / 1 / 2 / 2;
             text-align: center;
+            font-size: 18px;
             font-weight: bold;
             display: -webkit-box;
             -webkit-line-clamp: 3;
@@ -82,7 +82,14 @@
         const params = new URLSearchParams(window.location.search);
         document.querySelector(".coffee-name").textContent = params.get("coffeeName") || "";
         document.querySelector(".sell-by-date").textContent = params.get("sellBy") || "";
-        document.querySelector(".size").textContent = params.get("size") || "";
+        const weight = params.get("weight") || "";
+        const weightBox = document.querySelector(".weight");
+        
+        if (weight === "five"){
+            weightBox.textContent = "Net Weight 80oz / 5lbs / 2.27kg";
+        } else if (weight === "one") {
+            weightBox.textContent = "Net Weight 16oz / 1lb / 453g";
+        }
 
         function resizeCoffeeName() {
             requestAnimationFrame(() => {
@@ -124,9 +131,9 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            resizeCoffeeName();
-        });
+            document.addEventListener("DOMContentLoaded", () => {
+                resizeCoffeeName();
+            });        
 
     </script>
    

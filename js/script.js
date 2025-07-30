@@ -239,7 +239,7 @@ printBtn.addEventListener('click', () => {
     const grind = wholeRadioBtn.checked ? 'whole' : 'ground';
     const coffeeName = coffeeNameDiv.textContent.trim();
     const sellBy = sellByDateText.textContent.trim();
-    const size = fiveRadio.checked ? 'five' : 'one';
+    const weight = fiveRadio.checked ? 'five' : 'one';
 
     fetch('/print-label', {
         method: 'POST',
@@ -248,7 +248,7 @@ printBtn.addEventListener('click', () => {
             grind,
             coffeeName,
             sellBy,
-            size
+            weight
         })
     })
     .then(res => res.json())
