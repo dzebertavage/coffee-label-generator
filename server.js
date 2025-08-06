@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer-core');
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const fsp = require('fs').promises;
 
 const app = express();
 app.use(express.static(__dirname));
@@ -13,7 +14,7 @@ app.post('/print-label', async (req, res) => {
   try {
     // Launch headless Chrome
     const chromePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
-    console.log('🧭 Using system Chrome from:', chromePath);
+    console.log('Using system Chrome from:', chromePath);
     const browser = await puppeteer.launch({
       executablePath: chromePath,
       headless: "new",
@@ -57,11 +58,11 @@ app.post('/print-label', async (req, res) => {
     const filename = `img/label-archive/label-output-${timestamp}.png`;
 
     await page.screenshot({ path: filename });
-    console.log(`✅ Label screenshot saved as ${filename}`);
+    console.log(`Label screenshot saved as ${filename}`);
 
   // Format log entry as CSV
   const sellByDate = sellBy.slice(9, 17);
-  const weightNum = 5;
+  let weightNum = 5;
   
   if (weight === "one") {
     weightNum = 1;
@@ -71,19 +72,22 @@ app.post('/print-label', async (req, res) => {
   const logPath = path.join(__dirname, 'print-log.csv');
 
   // Write header if the file doesn’t exist
-  if (!fs.existsSync(logPath)) {
+  try {
+    await fsp.access(logPath);
+  } catch {
+    // File does not exist, write header
     const header = `"Timestamp","Coffee","Grind","Sell By","Weight"\n`;
-    fs.writeFileSync(logPath, header);
+    await fsp.writeFile(logPath, header);
   }
 
   // Append new line to CSV
-  fs.appendFile(logPath, logLine, (err) => {
-    if (err) {
-      console.error('❌ Failed to write CSV log:', err);
-    } else {
-      console.log('📝 Label print logged:', logLine.trim());
-    }
-  });
+  try {
+    await fsp.appendFile(logPath, logLine);
+    console.log('Label print logged:', logLine.trim());
+  } catch (err) {
+    console.error('Failed to write CSV log:', err);
+  }
+
 
   await browser.close();
 
