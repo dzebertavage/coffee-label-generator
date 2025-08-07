@@ -236,16 +236,22 @@ keepBtn.addEventListener('click', () => {
 });
 
 printBtn.addEventListener('click', () => {
-    const grind = wholeRadioBtn.checked ? 'whole' : 'ground';
+    const grindType = wholeRadioBtn.checked ? 'whole' : 'ground';
+    let grindNum = groundSlider.value;
     const coffeeName = coffeeNameDiv.textContent.trim();
     const sellBy = sellByDateText.textContent.trim();
     const weight = fiveRadio.checked ? 'five' : 'one';
+
+    if (grindType === "whole") {
+        grindNum = 0;
+    }
 
     fetch('/print-label', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            grind,
+            grindType,
+            grindNum,
             coffeeName,
             sellBy,
             weight

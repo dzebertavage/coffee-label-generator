@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .label-container {
+            border-radius: 15px;
+
+            display: grid;
+            grid-template-rows: 50.75px 507.5px 20.75px 70px 20.75px 244.25px 20.75px 85px 10.75px 61px 10.75px 65px 50.75px;
+            grid-template-columns: 50.75px 710.5px 50.75px;
+            height: 1218px;
+            width: 812px;
+        }
+
+        img.logo {
+            height: 505.5px;
+            width: auto;
+            margin: auto auto;
+            grid-area: 2 / 2 / 3 / 3;
+            place-self: center;
+        }
+
+        .ground-coffee-banner {
+            font-size: 37px;
+            height: 70px;
+            width: auto;
+            display: grid;
+            grid-template: 1fr / 1fr;
+            place-items: center;
+            grid-area: 4 / 2 / 5 / 3;
+            background-color: #000000;
+        }
+
+        .ground-coffee-text {
+            color: #ffffff;
+            font-weight: bold;
+            grid-area: 1 / 1 / 2 / 2;
+            place-self: center;
+            text-align: center;
+        }
+
+        .coffee-name-wrapper {
+            grid-area: 6 / 2 / 7 / 3;
+            display: grid;
+            grid-template: 1fr / 1fr;
+            place-items: center;
+            height: 244.25px;
+            width: 710.5px;
+            overflow: hidden;
+            place-self: center;
+        }
+
+        .coffee-name {
+            grid-area: 1 / 1 / 2 / 2;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sell-by-date {
+            grid-area: 8 / 2 / 9 / 3;
+            place-self: center;
+            font-size: 72px;
+        }
+
+        .phone-website {
+            grid-area: 10 / 2 / 11 / 3;
+            place-self: center;
+            font-size: 37px;
+        }
+
+        .weight {
+            grid-area: 12 / 2 / 13 / 3;
+            place-self: center;
+            font-size: 51px;
+        }
+    </style>
+</head>
+<body class="label-container">
+    <img class="logo" src="img/quatermaine-logo-large.png" alt="Quartermaine Coffee Roasters logo">
+    <div class="ground-coffee-banner">
+        <div class="ground-coffee-text">Ground #5</div>
+    </div>
+    <div class="coffee-name-wrapper">
+        <div class="coffee-name">Colombia</div>
+    </div>
+    <div class="sell-by-date">Sell by: 10/25/25</div>
+    <div class="phone-website">www.quartermaine.com | 301-230-4600 x1</div>
+    <div class="weight">Net Weight 80oz / 5lbs / 2.27kg</div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        document.querySelector(".coffee-name").textContent = params.get("coffeeName") || "";
+        document.querySelector(".sell-by-date").textContent = params.get("sellBy") || "";
+        document.querySelector(".ground-coffee-text").textContent = "Ground #" + (params.get("ground") || "5");
+        const weight = params.get("weight") || "";
+        const weightBox = document.querySelector(".weight");
+        
+        if (weight === "five"){
+            weightBox.textContent = "Net Weight 80oz / 5lbs / 2.27kg";
+        } else if (weight === "one") {
+            weightBox.textContent = "Net Weight 16oz / 1lb / 453g";
+        }
+
+        function resizeCoffeeName() {
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    const wrapper = document.querySelector(".coffee-name-wrapper");
+                    const text = document.querySelector(".coffee-name");
+
+                    let fontSize = 10;
+                    const maxFontSize = 175;
+                    const step = 1;
+
+                    text.style.fontSize = `${fontSize}px`;
+                    text.style.whiteSpace = "normal";
+                    text.style.wordBreak = "normal";
+                    text.style.overflow = "visible";
+                    text.style.display = "block";
+                    text.style.webkitLineClamp = "unset";
+                    text.style.webkitBoxOrient = "unset";
+
+                    while (fontSize <= maxFontSize) {
+                        text.style.fontSize = `${fontSize}px`;
+
+                        const isTooTall = text.scrollHeight > wrapper.clientHeight;
+                        const isTooWide = text.scrollWidth > wrapper.clientWidth;
+
+                        if (isTooTall || isTooWide) {
+                            fontSize -= step;
+                            text.style.fontSize = `${fontSize}px`;
+                            break;
+                        }
+                        fontSize += step;
+                    }
+
+                    text.style.display = "-webkit-box";
+                    text.style.webkitBoxOrient = "vertical";
+                    text.style.webkitLineClamp = "3";
+                    text.style.overflow = "hidden";
+                }, 10); // delay to give browser time to print layout
+            });
+        }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                resizeCoffeeName();
+            });        
+
+    </script>
+   
+</body>
+</html>

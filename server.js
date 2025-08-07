@@ -9,7 +9,7 @@ app.use(express.static(__dirname));
 app.use(express.json());
 
 app.post('/print-label', async (req, res) => {
-  const { grind, coffeeName, sellBy, weight } = req.body;
+  const { grindType, grindNum, coffeeName, sellBy, weight } = req.body;
 
   try {
     // Launch headless Chrome
@@ -23,7 +23,7 @@ app.post('/print-label', async (req, res) => {
     const page = await browser.newPage();
 
     // Construct query string URL
-    const url = `http://localhost:3000/label-template-${grind}.html` +
+    const url = `http://localhost:3000/label-template-${grindType}.html` +
                 `?coffeeName=${encodeURIComponent(coffeeName)}` +
                 `&sellBy=${encodeURIComponent(sellBy)}` +
                 `&weight=${encodeURIComponent(weight)}`;
@@ -45,16 +45,12 @@ app.post('/print-label', async (req, res) => {
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
 
-    let hours = now.getHours();
+    const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
     const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
 
-    hours = hours % 12 || 12; // Convert 0 to 12
-
-    const formattedHour = String(hours).padStart(2, '0');
-    const timestamp = `${year}-${month}-${day}_${formattedHour}-${minutes}-${seconds}-${milliseconds}${ampm}`;
+    const timestamp = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}-${milliseconds}`;
     const filename = `img/label-archive/label-output-${timestamp}.png`;
 
     await page.screenshot({ path: filename });
@@ -68,7 +64,7 @@ app.post('/print-label', async (req, res) => {
     weightNum = 1;
   }
 
-  const logLine = `"${timestamp}","${coffeeName}","${grind}","${sellByDate}","${weightNum}"\n`;
+  const logLine = `"${timestamp}","${coffeeName}","${grindType}", "${grindNum}", "${sellByDate}","${weightNum}"\n`;
   const logPath = path.join(__dirname, 'print-log.csv');
 
   // Write header if the file doesn’t exist
@@ -76,7 +72,7 @@ app.post('/print-label', async (req, res) => {
     await fsp.access(logPath);
   } catch {
     // File does not exist, write header
-    const header = `"Timestamp","Coffee","Grind","Sell By","Weight"\n`;
+    const header = `"Timestamp","Coffee","Grind Type", "#", "Sell By","Weight"\n`;
     await fsp.writeFile(logPath, header);
   }
 
