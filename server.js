@@ -84,6 +84,7 @@ app.post('/print-label', async (req, res) => {
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
     const page = await browser.newPage();
+    await page.emulateTimezone('America/New_York');
 
     // Construct query string URL
     const url = `http://localhost:3000/label-template-${grindType}.html` +
@@ -123,7 +124,7 @@ app.post('/print-label', async (req, res) => {
     const packed = packBitmapData(data, width, height);
     const sbplBuffer = buildSBPLImageCommand(packed, Math.ceil(width / 8), height);
 
-    const printerIP = '192.168.1.100'; // CHANGE TO IP OF THE SATO CL4NX PRINTER
+    const printerIP = 'localhost'; // CHANGE TO IP OF THE SATO CL4NX PRINTER
     try {
     await sendToPrinterTCP(sbplBuffer, printerIP);
     await fsp.unlink(filename);
