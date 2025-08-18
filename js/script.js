@@ -10,6 +10,10 @@ let coffeeLabel = {
 const editBtn = document.querySelector(".edit-btn");
 const printBtn = document.querySelector(".print-btn");
 const editDialogBox = document.querySelector("#edit-label-dialog");
+const copyDialogBox = document.querySelector("#copy-prompt-dialog");
+const copyInput = document.querySelector("#copyCount");
+const confirmCopiesBtn = document.querySelector(".confirm-copies");
+const cancelCopiesBtn = document.querySelector(".cancel-copies");
 
 const labelPreviewBox = document.querySelector(".label-preview");
 const wholeRadioBtn = document.querySelector("#whole");
@@ -236,6 +240,19 @@ keepBtn.addEventListener('click', () => {
 });
 
 printBtn.addEventListener('click', () => {
+    copyInput.value = "1";
+    copyDialogBox.showModal();
+});
+
+confirmCopiesBtn.addEventListener('click', () => {
+    const copies = parseInt(copyInput.value);
+    if (isNaN(copies) || copies < 1 || copies > 100) {
+        alert("Please enter a number between 1 and 100.");
+        return;
+    }
+
+    copyDialogBox.close();
+
     const grindType = wholeRadioBtn.checked ? 'whole' : 'ground';
     let grindNum = groundSlider.value;
     const coffeeName = coffeeNameDiv.textContent.trim();
@@ -246,24 +263,66 @@ printBtn.addEventListener('click', () => {
         grindNum = 0;
     }
 
-    fetch('/print-label', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            grindType,
-            grindNum,
-            coffeeName,
-            sellBy,
-            weight
+    for (let i = 0; i < copies; i++) {
+        fetch('/print-label', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                grindType,
+                grindNum,
+                coffeeName,
+                sellBy,
+                weight
+            })
         })
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log(data.message);
-        alert(data.message);
-    })
-    .catch(err => {
-        console.error('Print failed:', err);
-        alert('Something went wrong while sending the print job.');
-    });
+        .then(res => res.json())
+        .then(data => {
+            console.log(`Copy ${i + 1} of ${copies}: ${data.message}`);
+            if (i === copies - 1) {
+                alert(`Successfully printed ${copies} label${copies > 1 ? 's' : ''}.`);
+            }
+        })
+        .catch(err => {
+            console.error(`Print failed on copy ${i + 1}:`, err);
+            alert('Something went wrong while sending the print job.');
+        });
+    }
 });
+
+cancelCopiesBtn.addEventListener('click', () => {
+    copyDialogBox.close();
+});
+
+
+// printBtn.addEventListener('click', () => {
+//     const grindType = wholeRadioBtn.checked ? 'whole' : 'ground';
+//     let grindNum = groundSlider.value;
+//     const coffeeName = coffeeNameDiv.textContent.trim();
+//     const sellBy = sellByDateText.textContent.trim();
+//     const weight = fiveRadio.checked ? 'five' : 'one';
+
+//     if (grindType === "whole") {
+//         grindNum = 0;
+//     }
+
+//     fetch('/print-label', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({
+//             grindType,
+//             grindNum,
+//             coffeeName,
+//             sellBy,
+//             weight
+//         })
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//         console.log(data.message);
+//         alert(data.message);
+//     })
+//     .catch(err => {
+//         console.error('Print failed:', err);
+//         alert('Something went wrong while sending the print job.');
+//     });
+// });
