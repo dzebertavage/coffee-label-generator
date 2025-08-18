@@ -240,7 +240,7 @@ keepBtn.addEventListener('click', () => {
 });
 
 printBtn.addEventListener('click', () => {
-    copyInput.value = "1";
+    copyInput.value = "";
     copyDialogBox.showModal();
 });
 
