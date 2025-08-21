@@ -10,7 +10,7 @@ button {
 }
 
 html {
-    background-image: url("img/coffee-beans-background.jpg");
+    background-image: url("../img/coffee-beans-background.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
