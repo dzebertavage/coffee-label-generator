@@ -3,7 +3,7 @@ let todaysDate = date.add(3, `months`).format("MM/DD/YY");
 let sellByDate = moment().add(3, `months`).format("MM/DD/YY");
 let coffeeLabel = {
     newDate: `Sell by: ${sellByDate}`,
-    coffee: `Click "Edit"`,
+    coffee: `Click the "Edit" button`,
     weight: "Net Weight 80oz / 5lbs / 2.27kg"
 };
 
@@ -115,7 +115,11 @@ function updateDate() {
 }
 
 function resetDate() {
-    sellByDateText.textContent = `Sell by: ${moment().add(3, `months`).format("MM/DD/YY")}`;
+    if (wholeRadioBtn.checked) {
+        sellByDateText.textContent = `Sell by: ${moment().add(3, `months`).format("MM/DD/YY")}`;
+    } else if (groundRadioBtn.checked) {
+        sellByDateText.textContent = `Sell by: ${moment().add(1, `months`).format("MM/DD/YY")}`;
+    }     
 }
 
 function checkCoffeeMatch(coffeeInput) {
@@ -206,7 +210,7 @@ discardBtn.addEventListener('click', () => {
     newDate.value = "";
     newDateDiv.style.display = "none";
     editDialogBox.close();
-    coffeeNameDiv.textContent = `Click "Edit"`;
+    coffeeNameDiv.textContent = `Click the "Edit" button`;
     resetDate();
     resizeCoffeeName();
 });
@@ -242,7 +246,7 @@ keepBtn.addEventListener('click', () => {
 printBtn.addEventListener('click', () => {
     copyInput.value = "";
     copyDialogBox.showModal();
-});
+}); 
 
 confirmCopiesBtn.addEventListener('click', () => {
     const copies = parseInt(copyInput.value);
